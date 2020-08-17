@@ -61,7 +61,7 @@
   <ItemGroup>
     <Reference Include="clipper_library, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Documents\Курсовая\App\Reachebility non wpf\clipper_library\bin\Debug\clipper_library.dll</HintPath>
+      <HintPath>..\clipper_library\bin\Debug\clipper_library.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
