@@ -19,14 +19,11 @@ namespace WindowsFormsApplication1
     public partial class Form1 : Form
     {
         private Bitmap mybitmap;
-        private Polygons subjects = new Polygons();
-        private Polygons clips = new Polygons();
+        private Polygons figure1 = new Polygons();
+        private Polygons figure2 = new Polygons();
         private Polygons solution = new Polygons();
         private float scale = 100;
-        private void label1_Click(object sender, EventArgs e)
-        {
 
-        }
         public Form1()
         {
             InitializeComponent();
@@ -40,34 +37,54 @@ namespace WindowsFormsApplication1
         {
            
         }
-        private IntPoint GenerateRandomPoint(int l, int t, int r, int b, Random rand)
+        private IntPoint GeneratePoint(int x, int y)
         {
             int Q = 10;
             return new IntPoint(
-              Convert.ToInt64((rand.Next(r / Q) * Q + l + 10) * scale),
-              Convert.ToInt64((rand.Next(b / Q) * Q + t + 10) * scale));
+              Convert.ToInt64(x),
+              Convert.ToInt64(y));
         }
-        private void GenerateRandomPolygon(int count)
+
+        private List<IntPoint> StringToInt(string text)
         {
-            int Q = 10;
-            Random rand = new Random();
-            int l = 10;
-            int t = 10;
-            int r = (pictureBox1.ClientRectangle.Width - 20) / Q * Q;
-            int b = (pictureBox1.ClientRectangle.Height - 20) / Q * Q;
+            List<IntPoint> massive = new List<IntPoint>();
+            int x = 0;
+            int y = 0;
+            bool IsX = true;
+            string[] mystring = text.Split(' ');
+            foreach (string str in mystring)
+            {
+                if (IsX)
+                {
+                    x = int.Parse(str);
+                    IsX = false;
+                }
+                else
+                {
+                    y = int.Parse(str);
+                    IsX = true;
+                    massive.Add(GeneratePoint(x, y));
+                }
+            }
+            return massive; 
+        }
+        private void GenerateFigures(string textbox1, string textbox2)
+        {
+            
+            figure1.Clear();
+            figure2.Clear();
 
-            subjects.Clear();
-            clips.Clear();
+            List<IntPoint> massive1 = StringToInt(textbox1);
+            List<IntPoint> massive2 = StringToInt(textbox2);
+            Polygon polygon1 = new Polygon(massive1.Count);
+            for (int i = 0; i < massive1.Count; ++i)
+                polygon1.Add(massive1[i]);
+            figure1.Add(polygon1);
 
-            Polygon subj = new Polygon(count);
-            for (int i = 0; i < count; ++i)
-                subj.Add(GenerateRandomPoint(l, t, r, b, rand));
-            subjects.Add(subj);
-
-            Polygon clip = new Polygon(count);
-            for (int i = 0; i < count; ++i)
-                clip.Add(GenerateRandomPoint(l, t, r, b, rand));
-            clips.Add(clip);
+            Polygon polygon2 = new Polygon(massive2.Count);
+            for (int i = 0; i < massive2.Count; ++i)
+                polygon2.Add(massive2[i]);
+            figure2.Add(polygon2);
         }
         private void bRefresh_Click(object sender, EventArgs e)
         {
@@ -88,7 +105,7 @@ namespace WindowsFormsApplication1
             Cursor.Current = Cursors.WaitCursor;
             try
             {
-                GenerateRandomPolygon((int)numericUpDown1.Value);
+                GenerateFigures(textBox1.Text, textBox2.Text);
                 using (Graphics newgraphic = Graphics.FromImage(mybitmap))
                 using (GraphicsPath path = new GraphicsPath())
 
@@ -98,7 +115,7 @@ namespace WindowsFormsApplication1
                     path.FillMode = FillMode.Winding;
 
                     //draw subjects ...
-                    foreach (Polygon pg in subjects)
+                    foreach (Polygon pg in figure1)
                     {
                         PointF[] pts = PolygonToPointFArray(pg, scale);
                         path.AddPolygon(pts);
@@ -113,7 +130,7 @@ namespace WindowsFormsApplication1
 
                         //draw clips ...
                         path.FillMode = FillMode.Winding;
-                        foreach (Polygon pg in clips)
+                        foreach (Polygon pg in figure2)
                         {
                             PointF[] pts = PolygonToPointFArray(pg, scale);
                             path.AddPolygon(pts);
