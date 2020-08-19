@@ -11,7 +11,8 @@ using System.Linq;
 using System.Windows.Forms;
 using System.Globalization;
 using ClipperLib;
-//help me please
+
+
 namespace WindowsFormsApplication1
 {
     using Polygon = List<IntPoint>;
@@ -156,9 +157,10 @@ namespace WindowsFormsApplication1
                         if (numericUpDown1.Value != 0)
                         {
                             solution = Clipper.MinkowskiSum(figure1, figure2, false);
-                            for (int i = 0; i < numericUpDown1.Value * 10; i++)
+                            for (int i = 0; i < numericUpDown1.Value; i++)
                             {
-                                solution = Clipper.MinkowskiSum(figure1, solution, false);
+                                solution = Clipper.SimplifyPolygons(solution);
+                                solution = Clipper.MinkowskiSum(figure2, solution, true);
                             }
                             path.FillMode = FillMode.Winding;
                             foreach (Polygon poly in solution)
@@ -196,6 +198,11 @@ namespace WindowsFormsApplication1
         }
 
         private void textBox3_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void numericUpDown1_ValueChanged(object sender, EventArgs e)
         {
 
         }

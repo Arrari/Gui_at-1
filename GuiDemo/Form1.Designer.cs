@@ -54,10 +54,11 @@
             // 
             // numericUpDown1
             // 
-            this.numericUpDown1.Location = new System.Drawing.Point(14, 35);
+            this.numericUpDown1.Location = new System.Drawing.Point(6, 35);
             this.numericUpDown1.Name = "numericUpDown1";
             this.numericUpDown1.Size = new System.Drawing.Size(82, 20);
             this.numericUpDown1.TabIndex = 1;
+            this.numericUpDown1.ValueChanged += new System.EventHandler(this.numericUpDown1_ValueChanged);
             // 
             // label1
             // 
@@ -92,18 +93,19 @@
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(37, 144);
+            this.textBox1.Location = new System.Drawing.Point(11, 144);
             this.textBox1.Margin = new System.Windows.Forms.Padding(2);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(76, 20);
+            this.textBox1.Size = new System.Drawing.Size(205, 20);
             this.textBox1.TabIndex = 3;
+            this.textBox1.Text = "1100 1000 1100 1100 1000 1100 1000 1000";
             // 
             // textBox2
             // 
-            this.textBox2.Location = new System.Drawing.Point(37, 178);
+            this.textBox2.Location = new System.Drawing.Point(11, 168);
             this.textBox2.Margin = new System.Windows.Forms.Padding(2);
             this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(76, 20);
+            this.textBox2.Size = new System.Drawing.Size(205, 20);
             this.textBox2.TabIndex = 5;
             // 
             // trackBar1
