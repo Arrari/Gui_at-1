@@ -173,29 +173,7 @@ namespace WindowsFormsApplication1
 
         private void Form1_Load(object sender, EventArgs e)
         {
-          
             DrawBitmap();
-        }
-        private void bClose_Click(object sender, EventArgs e)
-        {
-            Close();
-        }
-        private void Form1_Resize(object sender, EventArgs e)
-        {
-            if (pictureBox1.ClientRectangle.Width == 0 ||
-                pictureBox1.ClientRectangle.Height == 0) return;
-            if (mybitmap != null)
-                mybitmap.Dispose();
-            mybitmap = new Bitmap(
-                pictureBox1.ClientRectangle.Width,
-                pictureBox1.ClientRectangle.Height,
-                PixelFormat.Format32bppArgb);
-            pictureBox1.Image = mybitmap;
-            DrawBitmap();
-        }
-        private void nudCount_ValueChanged(object sender, EventArgs e)
-        {
-            DrawBitmap(true);
         }
 
         private void label2_Click(object sender, EventArgs e)
