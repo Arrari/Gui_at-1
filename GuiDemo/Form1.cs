@@ -152,14 +152,20 @@ namespace WindowsFormsApplication1
                         myBrush.Color = Color.FromArgb(127, 0xFF, 0xE0, 0xE0);
                         newgraphic.FillPath(myBrush, path);
                         newgraphic.DrawPath(myPen, path);
-
-                        solution = Clipper.MinkowskiSum(figure1, figure2, false);
-                        path.FillMode = FillMode.Winding;
-                        foreach (Polygon poly in solution)
+                        //Minkovski w/ Timer
+                        if (numericUpDown1.Value != 0)
                         {
-                            pts = PolygonToPointFArray(poly, scale);
-                            path.AddPolygon(pts);
-                            pts = null;
+                            for (int i = 0; i < numericUpDown1.Value * 10; i++)
+                            {
+                                solution = Clipper.MinkowskiSum(figure1, figure2, false);
+                                path.FillMode = FillMode.Winding;
+                                foreach (Polygon poly in solution)
+                                {
+                                    pts = PolygonToPointFArray(poly, scale);
+                                    path.AddPolygon(pts);
+                                    pts = null;
+                                }
+                            }
                         }
                         myPen.Color = Color.FromArgb(196, 0xF9, 0xBE, 0xA6);
                         myBrush.Color = Color.FromArgb(127, 0xFE, 0x04, 0x00);
