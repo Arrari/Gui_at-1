@@ -18,20 +18,35 @@ namespace WindowsFormsApplication1
     using Polygons = List<List<IntPoint>>;
     public partial class Form1 : Form
     {
+      
+
         private Bitmap mybitmap;
         private Polygons figure1 = new Polygons();
         private Polygons figure2 = new Polygons();
         private Polygons solution = new Polygons();
-        private float scale = 100;
+        private float scale;
+
 
         public Form1()
         {
+
             InitializeComponent();
             this.MouseWheel += new MouseEventHandler(Form1_MouseWheel);
             mybitmap = new Bitmap(
               pictureBox1.ClientRectangle.Width,
               pictureBox1.ClientRectangle.Height,
               PixelFormat.Format32bppArgb);
+            this.trackBar1.Scroll += new System.EventHandler(this.trackBar1_Scroll);
+            trackBar1.Maximum = 100;
+            trackBar1.TickFrequency = 5;
+            trackBar1.LargeChange = 3;
+            trackBar1.SmallChange = 2;
+
+        }
+        private void trackBar1_Scroll(object sender, System.EventArgs e)
+        {
+            // Display the trackbar value in the text box.
+            textBox3.Text = "" + trackBar1.Value;
         }
         private void Form1_MouseWheel(object sender, MouseEventArgs e)
         {
@@ -39,7 +54,6 @@ namespace WindowsFormsApplication1
         }
         private IntPoint GeneratePoint(int x, int y)
         {
-            int Q = 10;
             return new IntPoint(
               Convert.ToInt64(x),
               Convert.ToInt64(y));
@@ -92,6 +106,7 @@ namespace WindowsFormsApplication1
         }
         static private PointF[] PolygonToPointFArray(Polygon pg, float scale)
         {
+            scale = trackBar1.Value / 10;
             PointF[] result = new PointF[pg.Count];
             for (int i = 0; i < pg.Count; ++i)
             {
@@ -117,6 +132,7 @@ namespace WindowsFormsApplication1
                     //draw subjects ...
                     foreach (Polygon pg in figure1)
                     {
+                        scale = trackBar1.Value / 10;
                         PointF[] pts = PolygonToPointFArray(pg, scale);
                         path.AddPolygon(pts);
                         pts = null;
@@ -132,6 +148,7 @@ namespace WindowsFormsApplication1
                         path.FillMode = FillMode.Winding;
                         foreach (Polygon pg in figure2)
                         {
+                            scale = trackBar1.Value / 10;
                             PointF[] pts = PolygonToPointFArray(pg, scale);
                             path.AddPolygon(pts);
                             pts = null;
