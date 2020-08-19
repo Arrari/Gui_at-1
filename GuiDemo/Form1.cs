@@ -24,8 +24,6 @@ namespace WindowsFormsApplication1
         private Polygons figure1 = new Polygons();
         private Polygons figure2 = new Polygons();
         private Polygons solution = new Polygons();
-        private float scale;
-
 
         public Form1()
         {
@@ -106,7 +104,6 @@ namespace WindowsFormsApplication1
         }
         static private PointF[] PolygonToPointFArray(Polygon pg, float scale)
         {
-            scale = trackBar1.Value / 10;
             PointF[] result = new PointF[pg.Count];
             for (int i = 0; i < pg.Count; ++i)
             {
@@ -132,7 +129,7 @@ namespace WindowsFormsApplication1
                     //draw subjects ...
                     foreach (Polygon pg in figure1)
                     {
-                        scale = trackBar1.Value / 10;
+                        float scale = trackBar1.Value;
                         PointF[] pts = PolygonToPointFArray(pg, scale);
                         path.AddPolygon(pts);
                         pts = null;
@@ -148,7 +145,7 @@ namespace WindowsFormsApplication1
                         path.FillMode = FillMode.Winding;
                         foreach (Polygon pg in figure2)
                         {
-                            scale = trackBar1.Value / 10;
+                           float scale = trackBar1.Value;
                             PointF[] pts = PolygonToPointFArray(pg, scale);
                             path.AddPolygon(pts);
                             pts = null;
