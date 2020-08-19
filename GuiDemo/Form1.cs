@@ -165,6 +165,7 @@ namespace WindowsFormsApplication1
                         myBrush.Color = Color.FromArgb(127, 0xFE, 0x04, 0x00);
                         newgraphic.FillPath(myBrush, path);
                         newgraphic.DrawPath(myPen, path);
+                        path.Reset();
                     }
                 }
 
