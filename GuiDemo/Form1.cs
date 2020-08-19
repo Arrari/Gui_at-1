@@ -45,7 +45,7 @@ namespace WindowsFormsApplication1
         private void trackBar1_Scroll(object sender, System.EventArgs e)
         {
             // Display the trackbar value in the text box.
-            textBox3.Text = "" + trackBar1.Value;
+            textBox3.Text = trackBar1.Value + ":1";
         }
         private void Form1_MouseWheel(object sender, MouseEventArgs e)
         {
@@ -196,6 +196,16 @@ namespace WindowsFormsApplication1
         private void nudCount_ValueChanged(object sender, EventArgs e)
         {
             DrawBitmap(true);
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox3_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
