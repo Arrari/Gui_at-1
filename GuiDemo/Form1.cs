@@ -155,16 +155,17 @@ namespace WindowsFormsApplication1
                         //Minkovski w/ Timer
                         if (numericUpDown1.Value != 0)
                         {
+                            solution = Clipper.MinkowskiSum(figure1, figure2, false);
                             for (int i = 0; i < numericUpDown1.Value * 10; i++)
                             {
-                                solution = Clipper.MinkowskiSum(figure1, figure2, false);
-                                path.FillMode = FillMode.Winding;
-                                foreach (Polygon poly in solution)
-                                {
-                                    pts = PolygonToPointFArray(poly, scale);
-                                    path.AddPolygon(pts);
-                                    pts = null;
-                                }
+                                solution = Clipper.MinkowskiSum(figure1, solution, false);
+                            }
+                            path.FillMode = FillMode.Winding;
+                            foreach (Polygon poly in solution)
+                            {
+                                pts = PolygonToPointFArray(poly, scale);
+                                path.AddPolygon(pts);
+                                pts = null;
                             }
                         }
                         myPen.Color = Color.FromArgb(196, 0xF9, 0xBE, 0xA6);
