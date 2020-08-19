@@ -11,7 +11,7 @@ using System.Linq;
 using System.Windows.Forms;
 using System.Globalization;
 using ClipperLib;
-
+//help me please
 namespace WindowsFormsApplication1
 {
     using Polygon = List<IntPoint>;
