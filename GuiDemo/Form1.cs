@@ -18,11 +18,11 @@ namespace WindowsFormsApplication1
     using Polygons = List<List<IntPoint>>;
     public partial class Form1 : Form
     {
-      
+
 
         private Bitmap mybitmap;
-        private Polygons figure1 = new Polygons();
-        private Polygons figure2 = new Polygons();
+        private Polygon figure1 = new Polygon();
+        private Polygon figure2 = new Polygon();
         private Polygons solution = new Polygons();
 
         public Form1()
@@ -94,12 +94,12 @@ namespace WindowsFormsApplication1
             Polygon polygon1 = new Polygon(massive1.Count);
             for (int i = 0; i < massive1.Count; ++i)
                 polygon1.Add(massive1[i]);
-            figure1.Add(polygon1);
+            figure1 = polygon1;
 
             Polygon polygon2 = new Polygon(massive2.Count);
             for (int i = 0; i < massive2.Count; ++i)
                 polygon2.Add(massive2[i]);
-            figure2.Add(polygon2);
+            figure2 = polygon2;
         }
         private void bRefresh_Click(object sender, EventArgs e)
         {
@@ -116,6 +116,7 @@ namespace WindowsFormsApplication1
             }
             return result;
         }
+
         //Here comes Drawing
         private void DrawBitmap(bool justClip = false)
         {
@@ -130,15 +131,11 @@ namespace WindowsFormsApplication1
                     newgraphic.SmoothingMode = SmoothingMode.AntiAlias;
                     newgraphic.Clear(Color.White);
                     path.FillMode = FillMode.Winding;
-
+                    float scale = trackBar1.Value;
+                    PointF[] pts = PolygonToPointFArray(figure1, scale);
+                    path.AddPolygon(pts);
+                    pts = null;
                     //draw subjects ...
-                    foreach (Polygon pg in figure1)
-                    {
-                        float scale = trackBar1.Value;
-                        PointF[] pts = PolygonToPointFArray(pg, scale);
-                        path.AddPolygon(pts);
-                        pts = null;
-                    }
                     using (Pen myPen = new Pen(Color.FromArgb(196, 0xC3, 0xC9, 0xCF), (float)0.6))
                     using (SolidBrush myBrush = new SolidBrush(Color.FromArgb(127, 0xDD, 0xDD, 0xF0)))
                     {
@@ -148,15 +145,24 @@ namespace WindowsFormsApplication1
 
                         //draw clips ...
                         path.FillMode = FillMode.Winding;
-                        foreach (Polygon pg in figure2)
+                        pts = PolygonToPointFArray(figure2, scale);
+                        path.AddPolygon(pts);
+                        pts = null;
+                        myPen.Color = Color.FromArgb(196, 0xF9, 0xBE, 0xA6);
+                        myBrush.Color = Color.FromArgb(127, 0xFF, 0xE0, 0xE0);
+                        newgraphic.FillPath(myBrush, path);
+                        newgraphic.DrawPath(myPen, path);
+
+                        solution = Clipper.MinkowskiSum(figure1, figure2, false);
+                        path.FillMode = FillMode.Winding;
+                        foreach (Polygon poly in solution)
                         {
-                           float scale = trackBar1.Value;
-                            PointF[] pts = PolygonToPointFArray(pg, scale);
+                            pts = PolygonToPointFArray(poly, scale);
                             path.AddPolygon(pts);
                             pts = null;
                         }
                         myPen.Color = Color.FromArgb(196, 0xF9, 0xBE, 0xA6);
-                        myBrush.Color = Color.FromArgb(127, 0xFF, 0xE0, 0xE0);
+                        myBrush.Color = Color.FromArgb(127, 0xFE, 0x04, 0x00);
                         newgraphic.FillPath(myBrush, path);
                         newgraphic.DrawPath(myPen, path);
                     }
