@@ -41,6 +41,7 @@ namespace WindowsFormsApplication1
             trackBar1.SmallChange = 2;
 
         }
+
         private void trackBar1_Scroll(object sender, System.EventArgs e)
         {
             // Display the trackbar value in the text box.
@@ -50,13 +51,14 @@ namespace WindowsFormsApplication1
         {
            
         }
+        //Generate point from INT array
         private IntPoint GeneratePoint(int x, int y)
         {
             return new IntPoint(
               Convert.ToInt64(x),
               Convert.ToInt64(y));
         }
-
+        //Parser. Generate INT values from Strings
         private List<IntPoint> StringToInt(string text)
         {
             List<IntPoint> massive = new List<IntPoint>();
@@ -80,6 +82,7 @@ namespace WindowsFormsApplication1
             }
             return massive; 
         }
+        //Calculate Poly's from Points
         private void GenerateFigures(string textbox1, string textbox2)
         {
             
@@ -102,6 +105,7 @@ namespace WindowsFormsApplication1
         {
             DrawBitmap();
         }
+        //Generete Points array from single Points.
         static private PointF[] PolygonToPointFArray(Polygon pg, float scale)
         {
             PointF[] result = new PointF[pg.Count];
@@ -112,6 +116,7 @@ namespace WindowsFormsApplication1
             }
             return result;
         }
+        //Here comes Drawing
         private void DrawBitmap(bool justClip = false)
         {
             Cursor.Current = Cursors.WaitCursor;
