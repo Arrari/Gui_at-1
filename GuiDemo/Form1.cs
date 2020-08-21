@@ -20,12 +20,12 @@ namespace WindowsFormsApplication1
     public partial class Form1 : Form
     {
 
-
+        Random rand = new Random();
         private Bitmap mybitmap;
         private Polygon figure1 = new Polygon();
         private Polygon figure2 = new Polygon();
         private Polygons solution = new Polygons();
-
+        private Polygons cubes = new Polygons();
         public Form1()
         {
 
@@ -84,23 +84,41 @@ namespace WindowsFormsApplication1
             return massive; 
         }
         //Calculate Poly's from Points
+        private Polygons GenerateRandomCubes(int countObs)
+        {
+            Polygons obs = new Polygons();
+            int height = 40;
+            int width = 50;
+            int x;
+            int y;
+            for (int i = 0; i < countObs; i++)
+            {
+                Polygon cube = new Polygon();
+                x = rand.Next(0, pictureBox1.Width);
+                y = rand.Next(0, pictureBox1.Height);
+                cube.Add(GeneratePoint(x, y));
+                x = x + height;
+                cube.Add(GeneratePoint(x, y));
+                y = y + width;
+                cube.Add(GeneratePoint(x, y));
+                x = x - height;
+                cube.Add(GeneratePoint(x, y));
+                obs.Add(cube);
+            }
+            return obs;
+        }
         private void GenerateFigures(string textbox1, string textbox2)
         {
             
             figure1.Clear();
             figure2.Clear();
 
-            List<IntPoint> massive1 = StringToInt(textbox1);
-            List<IntPoint> massive2 = StringToInt(textbox2);
-            Polygon polygon1 = new Polygon(massive1.Count);
+            Polygon massive1 = StringToInt(textbox1);
+            Polygon massive2 = StringToInt(textbox2);
             for (int i = 0; i < massive1.Count; ++i)
-                polygon1.Add(massive1[i]);
-            figure1 = polygon1;
-
-            Polygon polygon2 = new Polygon(massive2.Count);
+                figure1.Add(massive1[i]);
             for (int i = 0; i < massive2.Count; ++i)
-                polygon2.Add(massive2[i]);
-            figure2 = polygon2;
+                figure2.Add(massive2[i]);
         }
         private void bRefresh_Click(object sender, EventArgs e)
         {
@@ -163,6 +181,7 @@ namespace WindowsFormsApplication1
                                 solution = Clipper.MinkowskiSum(figure2, solution, true);
 
                             }
+
                             path.FillMode = FillMode.Winding;
                             foreach (Polygon poly in solution)
                             {
@@ -173,6 +192,20 @@ namespace WindowsFormsApplication1
                         }
                         myPen.Color = Color.FromArgb(196, 0xF9, 0xBE, 0xA6);
                         myBrush.Color = Color.FromArgb(127, 0xFE, 0x04, 0x00);
+                        newgraphic.FillPath(myBrush, path);
+                        newgraphic.DrawPath(myPen, path);
+                        path.Reset();
+
+                        cubes = GenerateRandomCubes(5);
+                        path.FillMode = FillMode.Winding;
+                        foreach (Polygon poly in cubes)
+                        {
+                            pts = PolygonToPointFArray(poly, scale);
+                            path.AddPolygon(pts);
+                            pts = null;
+                        }
+                        myPen.Color = Color.FromArgb(196, 0x00, 0x00, 0x00);
+                        myBrush.Color = Color.FromArgb(127, 0xFF, 0xFF, 0xFF);
                         newgraphic.FillPath(myBrush, path);
                         newgraphic.DrawPath(myPen, path);
                         path.Reset();
