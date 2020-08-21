@@ -102,8 +102,8 @@ namespace WindowsFormsApplication1
         {
             int scale = trackBar1.Value;
             Polygons obs = new Polygons();
-            int height = 40;
-            int width = 40;
+            int height = rand.Next(0, pictureBox1.Width * scale/10);
+            int width = rand.Next(0, pictureBox1.Width * scale / 10);
             int x;
             int y;
             for (int i = 0; i < countObs; i++)
@@ -112,11 +112,11 @@ namespace WindowsFormsApplication1
                 x = rand.Next(0, pictureBox1.Width*scale);
                 y = rand.Next(0, pictureBox1.Height*scale);
                 cube.Add(GeneratePoint(x, y));
-                x = x + height;
+                x = x + rand.Next(0, pictureBox1.Width * scale / 10);
                 cube.Add(GeneratePoint(x, y));
-                y = y + width;
+                y = y + rand.Next(0, pictureBox1.Width * scale / 10);
                 cube.Add(GeneratePoint(x, y));
-                x = x - height;
+                x = x - rand.Next(0, pictureBox1.Width * scale / 10);
                 cube.Add(GeneratePoint(x, y));
                 obs.Add(cube);
             }
