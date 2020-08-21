@@ -149,8 +149,8 @@ namespace WindowsFormsApplication1
                         pts = PolygonToPointFArray(figure2, scale);
                         path.AddPolygon(pts);
                         pts = null;
-                        myPen.Color = Color.FromArgb(196, 0xF9, 0xBE, 0xA6);
-                        myBrush.Color = Color.FromArgb(127, 0xFF, 0xE0, 0xE0);
+                        myPen.Color = Color.FromArgb(196, 0xEF, 0xBE, 0xA6);
+                        myBrush.Color = Color.FromArgb(127, 0xEF, 0xE0, 0xE0);
                         newgraphic.FillPath(myBrush, path);
                         newgraphic.DrawPath(myPen, path);
                         //Minkovski w/ Timer
@@ -161,6 +161,7 @@ namespace WindowsFormsApplication1
                             {
                                 solution = Clipper.SimplifyPolygons(solution);
                                 solution = Clipper.MinkowskiSum(figure2, solution, true);
+
                             }
                             path.FillMode = FillMode.Winding;
                             foreach (Polygon poly in solution)
@@ -187,6 +188,7 @@ namespace WindowsFormsApplication1
             }
         }
 
+
         private void Form1_Load(object sender, EventArgs e)
         {
             DrawBitmap();
@@ -203,6 +205,26 @@ namespace WindowsFormsApplication1
         }
 
         private void numericUpDown1_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox2_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void trackBar1_Scroll_1(object sender, EventArgs e)
         {
 
         }
