@@ -213,7 +213,6 @@ namespace WindowsFormsApplication1
                         //Convert Obs to ints
                         int count = Convert.ToInt32(numericUpDown2.Value);
                         cubes = GenerateRandomCubes(count);
-                        path.FillMode = FillMode.Winding;
                         foreach (Polygon poly in cubes)
                         {
                             pts = PolygonToPointFArray(poly, scale);
@@ -221,10 +220,50 @@ namespace WindowsFormsApplication1
                             pts = null;
                         }
                         myPen.Color = Color.FromArgb(196, 0x00, 0x00, 0x00);
-                        myBrush.Color = Color.FromArgb(127, 0xFF, 0xFF, 0xFF);
+                        myBrush.Color = Color.FromArgb(255, 0xFF, 0xFF, 0xFF);
                         newgraphic.FillPath(myBrush, path);
                         newgraphic.DrawPath(myPen, path);
                         path.Reset();
+                        /*------
+                        Polygons filler = new Polygons();
+                        Clipper d = new Clipper();
+                        d.AddPaths(cubes, PolyType.ptSubject, true);
+                        d.AddPaths(cubes, PolyType.ptClip, true);
+                        path.FillMode = FillMode.Winding;
+                        d.Execute(ClipType.ctIntersection, filler, PolyFillType.pftEvenOdd, PolyFillType.pftEvenOdd);
+
+                        foreach (Polygon poly in filler)
+                        {
+                            pts = PolygonToPointFArray(poly, scale);
+                            path.AddPolygon(pts);
+                            pts = null;
+                        }
+                        myPen.Color = Color.FromArgb(255, 0xFF, 0xFF, 0xFF);
+                        myBrush.Color = Color.FromArgb(255, 0xFF, 0xFF, 0xFF);
+                        newgraphic.FillPath(myBrush, path);
+                        newgraphic.DrawPath(myPen, path);
+                        path.Reset();
+                        */
+                        //-----
+                        Polygons solution_2 = new Polygons();
+                        Clipper c = new Clipper();
+                        c.AddPaths(solution, PolyType.ptSubject, true);
+                        c.AddPaths(cubes, PolyType.ptClip, true);
+                        path.FillMode = FillMode.Winding;
+                        c.Execute(ClipType.ctIntersection, solution_2, PolyFillType.pftEvenOdd, PolyFillType.pftEvenOdd);
+
+                        foreach (Polygon poly in solution_2)
+                        {
+                            pts = PolygonToPointFArray(poly, scale);
+                            path.AddPolygon(pts);
+                            pts = null;
+                        }
+                        myPen.Color = Color.FromArgb(196, 0x00, 0x00, 0x00);
+                        myBrush.Color = Color.FromArgb(255, 0xFF, 0x00, 0xFF);
+                        newgraphic.FillPath(myBrush, path);
+                        newgraphic.DrawPath(myPen, path);
+                        path.Reset();
+                        //-------
                     }
                 }
 
