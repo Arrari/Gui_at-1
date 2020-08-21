@@ -19,6 +19,20 @@ namespace WindowsFormsApplication1
     using Polygons = List<List<IntPoint>>;
     public partial class Form1 : Form
     {
+        public void InstantiateMyNumericUpDown()
+        {
+            // Create and initialize a NumericUpDown control.
+
+            // Dock the control to the top of the form.
+
+            // Set the Minimum, Maximum, and initial Value.
+            numericUpDown2.Value = 1;
+            numericUpDown2.Maximum = 100;
+            numericUpDown2.Minimum = 1;
+
+            // Add the NumericUpDown to the Form.
+            Controls.Add(numericUpDown1);
+        }
 
         Random rand = new Random();
         private Bitmap mybitmap;
@@ -86,16 +100,17 @@ namespace WindowsFormsApplication1
         //Calculate Poly's from Points
         private Polygons GenerateRandomCubes(int countObs)
         {
+            int scale = trackBar1.Value;
             Polygons obs = new Polygons();
             int height = 40;
-            int width = 50;
+            int width = 40;
             int x;
             int y;
             for (int i = 0; i < countObs; i++)
             {
                 Polygon cube = new Polygon();
-                x = rand.Next(0, pictureBox1.Width);
-                y = rand.Next(0, pictureBox1.Height);
+                x = rand.Next(0, pictureBox1.Width*scale);
+                y = rand.Next(0, pictureBox1.Height*scale);
                 cube.Add(GeneratePoint(x, y));
                 x = x + height;
                 cube.Add(GeneratePoint(x, y));
@@ -195,8 +210,9 @@ namespace WindowsFormsApplication1
                         newgraphic.FillPath(myBrush, path);
                         newgraphic.DrawPath(myPen, path);
                         path.Reset();
-
-                        cubes = GenerateRandomCubes(5);
+                        //Convert Obs to ints
+                        int count = Convert.ToInt32(numericUpDown2.Value);
+                        cubes = GenerateRandomCubes(count);
                         path.FillMode = FillMode.Winding;
                         foreach (Polygon poly in cubes)
                         {
@@ -258,6 +274,11 @@ namespace WindowsFormsApplication1
         }
 
         private void trackBar1_Scroll_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void numericUpDown2_ValueChanged(object sender, EventArgs e)
         {
 
         }
