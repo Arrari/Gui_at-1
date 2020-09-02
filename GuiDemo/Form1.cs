@@ -224,6 +224,7 @@ namespace WindowsFormsApplication1
                         newgraphic.FillPath(myBrush, path);
                         newgraphic.DrawPath(myPen, path);
                         path.Reset();
+
                         /*------
                         Polygons filler = new Polygons();
                         Clipper d = new Clipper();
@@ -245,6 +246,7 @@ namespace WindowsFormsApplication1
                         path.Reset();
                         */
                         //-----
+
                         Polygons solution_2 = new Polygons();
                         Clipper c = new Clipper();
                         c.AddPaths(solution, PolyType.ptSubject, true);
@@ -263,6 +265,7 @@ namespace WindowsFormsApplication1
                         newgraphic.FillPath(myBrush, path);
                         newgraphic.DrawPath(myPen, path);
                         path.Reset();
+
                         //-------
                     }
                 }
