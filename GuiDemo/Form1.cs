@@ -135,10 +135,7 @@ namespace WindowsFormsApplication1
             for (int i = 0; i < massive2.Count; ++i)
                 figure2.Add(massive2[i]);
         }
-        private void bRefresh_Click(object sender, EventArgs e)
-        {
-            DrawBitmap();
-        }
+       
         //Generete Points array from single Points.
         static private PointF[] PolygonToPointFArray(Polygon pg, float scale)
         {
@@ -207,25 +204,7 @@ namespace WindowsFormsApplication1
                             }
                         }
                         
-                        myPen.Color = Color.FromArgb(196, 0xF9, 0xBE, 0xA6);
-                        myBrush.Color = Color.FromArgb(127, 0xFE, 0x04, 0x00);
-                        newgraphic.FillPath(myBrush, path);
-                        newgraphic.DrawPath(myPen, path);
-                        path.Reset();
-                        //Convert Obs to ints
-                        int count = Convert.ToInt32(numericUpDown2.Value);
-                        cubes = GenerateRandomCubes(count);
-                        foreach (Polygon poly in cubes)
-                        {
-                            pts = PolygonToPointFArray(poly, scale);
-                            path.AddPolygon(pts);
-                            pts = null;
-                        }
-                        myPen.Color = Color.FromArgb(196, 0x00, 0x00, 0x00);
-                        myBrush.Color = Color.FromArgb(255, 0xFF, 0xFF, 0xFF);
-                        newgraphic.FillPath(myBrush, path);
-                        newgraphic.DrawPath(myPen, path);
-                        path.Reset();
+                      
 
                         /*------
                         Polygons filler = new Polygons();
@@ -281,13 +260,58 @@ namespace WindowsFormsApplication1
             }
         }
         private void DrawBitmap_2(bool justClip = false)
-        {     
+        {
+            Cursor.Current = Cursors.WaitCursor;
+            try
+            {
+                GenerateFigures(textBox1.Text, textBox2.Text);
+                using (Graphics newgraphic = Graphics.FromImage(mybitmap))
+                using (GraphicsPath path = new GraphicsPath())
+                {
+                    newgraphic.SmoothingMode = SmoothingMode.AntiAlias;
+                    newgraphic.Clear(Color.White);
+                    float scale = trackBar1.Value;
+                    using (Pen myPen = new Pen(Color.FromArgb(196, 0xC3, 0xC9, 0xCF), (float)0.6))
+                    using (SolidBrush myBrush = new SolidBrush(Color.FromArgb(127, 0xDD, 0xDD, 0xF0)))
+                    {
+                        newgraphic.FillPath(myBrush, path);
+                        newgraphic.DrawPath(myPen, path);
+                        path.Reset();
+                        //Convert Obs to ints
+                        int count = Convert.ToInt32(numericUpDown2.Value);
+                        cubes = GenerateRandomCubes(count);
+                        foreach (Polygon poly in cubes)
+                        {
+                            PointF[] pts = PolygonToPointFArray(poly, scale);
+                            path.AddPolygon(pts);
+                            pts = null;
+                        }
+                        myPen.Color = Color.FromArgb(196, 0x00, 0x00, 0x00);
+                        myBrush.Color = Color.FromArgb(255, 0xFF, 0xFF, 0xFF);
+                        newgraphic.FillPath(myBrush, path);
+                        newgraphic.DrawPath(myPen, path);
+                        path.Reset();
+                    }
+                }
 
+                pictureBox1.Image = mybitmap;
 
+            }
+            finally
+            {
+                Cursor.Current = Cursors.Default;
+            }
+        }
 
-         }
+        private void bRefresh_Click(object sender, EventArgs e)
+        {
+            DrawBitmap();
+        }
 
-
+        private void bRefresh_Click2(object sender, EventArgs e)
+        {
+            DrawBitmap_2();
+        }
         private void Form1_Load(object sender, EventArgs e)
         {
             DrawBitmap();
