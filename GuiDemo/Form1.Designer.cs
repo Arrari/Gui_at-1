@@ -32,22 +32,23 @@
             this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.button1 = new System.Windows.Forms.Button();
+            this.Obstacles = new System.Windows.Forms.Label();
+            this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
+            this.label3 = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.textBox2 = new System.Windows.Forms.TextBox();
+            this.button1 = new System.Windows.Forms.Button();
             this.trackBar1 = new System.Windows.Forms.TrackBar();
             this.textBox3 = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
-            this.Obstacles = new System.Windows.Forms.Label();
+            this.button2 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             this.groupBox2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
             this.SuspendLayout();
             // 
             // pictureBox1
@@ -91,16 +92,32 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Controls";
             // 
-            // button1
+            // Obstacles
             // 
-            this.button1.Location = new System.Drawing.Point(23, 509);
-            this.button1.Margin = new System.Windows.Forms.Padding(2);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(56, 19);
-            this.button1.TabIndex = 4;
-            this.button1.Text = "Start";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.bRefresh_Click);
+            this.Obstacles.AutoSize = true;
+            this.Obstacles.Location = new System.Drawing.Point(98, 16);
+            this.Obstacles.Name = "Obstacles";
+            this.Obstacles.Size = new System.Drawing.Size(54, 13);
+            this.Obstacles.TabIndex = 8;
+            this.Obstacles.Text = "Obstacles";
+            // 
+            // numericUpDown2
+            // 
+            this.numericUpDown2.Location = new System.Drawing.Point(95, 34);
+            this.numericUpDown2.Name = "numericUpDown2";
+            this.numericUpDown2.Size = new System.Drawing.Size(102, 20);
+            this.numericUpDown2.TabIndex = 7;
+            this.numericUpDown2.ValueChanged += new System.EventHandler(this.numericUpDown2_ValueChanged);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(6, 82);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(143, 13);
+            this.label3.TabIndex = 6;
+            this.label3.Text = "Starting Polygon Coordinates";
+            this.label3.Click += new System.EventHandler(this.label3_Click);
             // 
             // textBox1
             // 
@@ -121,6 +138,17 @@
             this.textBox2.Size = new System.Drawing.Size(189, 20);
             this.textBox2.TabIndex = 5;
             this.textBox2.Text = "100 0 100 100 0 100 0 0";
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(23, 509);
+            this.button1.Margin = new System.Windows.Forms.Padding(2);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(125, 36);
+            this.button1.TabIndex = 4;
+            this.button1.Text = "Start";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.bRefresh_Click);
             // 
             // trackBar1
             // 
@@ -152,16 +180,6 @@
             this.label2.Text = "Scale";
             this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(6, 82);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(143, 13);
-            this.label3.TabIndex = 6;
-            this.label3.Text = "Starting Polygon Coordinates";
-            this.label3.Click += new System.EventHandler(this.label3_Click);
-            // 
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.label2);
@@ -174,28 +192,21 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Scale Controls";
             // 
-            // numericUpDown2
+            // button2
             // 
-            this.numericUpDown2.Location = new System.Drawing.Point(95, 34);
-            this.numericUpDown2.Name = "numericUpDown2";
-            this.numericUpDown2.Size = new System.Drawing.Size(102, 20);
-            this.numericUpDown2.TabIndex = 7;
-            this.numericUpDown2.ValueChanged += new System.EventHandler(this.numericUpDown2_ValueChanged);
-            // 
-            // Obstacles
-            // 
-            this.Obstacles.AutoSize = true;
-            this.Obstacles.Location = new System.Drawing.Point(98, 16);
-            this.Obstacles.Name = "Obstacles";
-            this.Obstacles.Size = new System.Drawing.Size(54, 13);
-            this.Obstacles.TabIndex = 8;
-            this.Obstacles.Text = "Obstacles";
+            this.button2.Location = new System.Drawing.Point(25, 472);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(123, 32);
+            this.button2.TabIndex = 10;
+            this.button2.Text = "Generate Obs.";
+            this.button2.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1373, 814);
+            this.Controls.Add(this.button2);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.groupBox1);
@@ -206,10 +217,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -230,5 +241,6 @@
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Label Obstacles;
         private System.Windows.Forms.NumericUpDown numericUpDown2;
+        private System.Windows.Forms.Button button2;
     }
 }

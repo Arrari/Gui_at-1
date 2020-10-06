@@ -173,6 +173,7 @@ namespace WindowsFormsApplication1
                     using (Pen myPen = new Pen(Color.FromArgb(196, 0xC3, 0xC9, 0xCF), (float)0.6))
                     using (SolidBrush myBrush = new SolidBrush(Color.FromArgb(127, 0xDD, 0xDD, 0xF0)))
                     {
+                        
                         newgraphic.FillPath(myBrush, path);
                         newgraphic.DrawPath(myPen, path);
                         path.Reset();
@@ -205,6 +206,7 @@ namespace WindowsFormsApplication1
                                 pts = null;
                             }
                         }
+                        
                         myPen.Color = Color.FromArgb(196, 0xF9, 0xBE, 0xA6);
                         myBrush.Color = Color.FromArgb(127, 0xFE, 0x04, 0x00);
                         newgraphic.FillPath(myBrush, path);
@@ -278,11 +280,18 @@ namespace WindowsFormsApplication1
                 Cursor.Current = Cursors.Default;
             }
         }
+        private void DrawBitmap_2(bool justClip = false)
+        {     
+
+
+
+         }
 
 
         private void Form1_Load(object sender, EventArgs e)
         {
             DrawBitmap();
+            button2.Click += new EventHandler(this.Obs_gen);
         }
 
         private void label2_Click(object sender, EventArgs e)
@@ -293,6 +302,14 @@ namespace WindowsFormsApplication1
         private void textBox3_TextChanged(object sender, EventArgs e)
         {
 
+        }
+        void Obs_gen(Object sender,
+                             EventArgs e)
+        {
+            // When the button is clicked,
+            // change the button text, and disable it.
+            // Display the greeting label text.
+            DrawBitmap_2();
         }
 
         private void numericUpDown1_ValueChanged(object sender, EventArgs e)
