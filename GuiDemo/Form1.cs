@@ -239,14 +239,14 @@ namespace WindowsFormsApplication1
 
         private void bRefresh_Click(object sender, EventArgs e)
         {
-            SumMinkowski();
             pathSolution.Reset();
+            SumMinkowski();
         }
 
         private void bRefresh_Click2(object sender, EventArgs e)
         {
-            RandomFigures();
             pathRandomCubes.Reset();
+            RandomFigures();
         }
         private void Form1_Load(object sender, EventArgs e)
         { 
