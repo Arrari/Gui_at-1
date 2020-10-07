@@ -175,6 +175,14 @@ namespace WindowsFormsApplication1
                         newgraphic.FillPath(myBrush, pathRandomCubes);
                         newgraphic.DrawPath(myPen, pathRandomCubes);
                     }
+                    else
+                    {
+                        myPen = new Pen(Color.FromArgb(196, 0xEF, 0xBE, 0xA6));
+                        myBrush = new SolidBrush(Color.FromArgb(127, 0xEF, 0xE0, 0xE0));
+                        newgraphic.FillPath(myBrush, pathRandomCubes);
+                        newgraphic.DrawPath(myPen, pathRandomCubes);
+
+                    }
 
                     GraphicsPath path = DoClipping();
                     myPen = new Pen(Color.FromArgb(255, 0x00, 0x00, 0x00));
