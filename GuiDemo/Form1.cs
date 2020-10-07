@@ -196,7 +196,6 @@ namespace WindowsFormsApplication1
                     solution = Clipper.MinkowskiSum(figure2, solution, true);
 
                 }
-
                 pathSolution.FillMode = FillMode.Winding;
                 foreach (Polygon poly in solution)
                 {
@@ -205,20 +204,24 @@ namespace WindowsFormsApplication1
                     pts = null;
                 }
             }
+            DrawBitmap();
+        }
+        private void DoClipping(Polygons solution, Polygons cubes, bool justClip = false)
+        {
+            float scale = trackBar1.Value;
             Polygons solution_2 = new Polygons();
             Clipper c = new Clipper();
             c.AddPaths(solution, PolyType.ptSubject, true);
             c.AddPaths(cubes, PolyType.ptClip, true);
             pathSolution.FillMode = FillMode.Winding;
             c.Execute(ClipType.ctIntersection, solution_2, PolyFillType.pftEvenOdd, PolyFillType.pftEvenOdd);
-
             foreach (Polygon poly in solution_2)
             {
-                pts = PolygonToPointFArray(poly, scale);
+                PointF[] pts = PolygonToPointFArray(poly, scale);
                 pathSolution.AddPolygon(pts);
                 pts = null;
             }
-            DrawBitmap();
+
         }
         private void RandomFigures(bool justClip = false)
         {
