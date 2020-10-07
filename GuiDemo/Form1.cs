@@ -151,23 +151,36 @@ namespace WindowsFormsApplication1
             return result;
         }
 
-        private void DrawBitmap(bool JustClip = false)
+        private void DrawBitmap(bool newGenerateCubes, bool JustClip = false)
         {
             Cursor.Current = Cursors.WaitCursor;
             try
             {
                 using (Graphics newgraphic = Graphics.FromImage(mybitmap))
                 {
+
+                    pathSolution = SumMinkowski();
                     Pen myPen = new Pen(Color.FromArgb(196, 0xEF, 0xBE, 0xA6));
                     SolidBrush myBrush = new SolidBrush(Color.FromArgb(127, 0xEF, 0xE0, 0xE0));
                     newgraphic.SmoothingMode = SmoothingMode.AntiAlias;
                     newgraphic.Clear(Color.White);
                     newgraphic.FillPath(myBrush, pathSolution);
                     newgraphic.DrawPath(myPen, pathSolution);
-                    myPen = new Pen(Color.FromArgb(196, 0xEF, 0xBE, 0xA6));
-                    myBrush = new SolidBrush(Color.FromArgb(127, 0xEF, 0xE0, 0xE0));
-                    newgraphic.FillPath(myBrush, pathRandomCubes);
-                    newgraphic.DrawPath(myPen, pathRandomCubes);
+
+                    if (newGenerateCubes)
+                    {
+                        pathRandomCubes = RandomFigures();
+                        myPen = new Pen(Color.FromArgb(196, 0xEF, 0xBE, 0xA6));
+                        myBrush = new SolidBrush(Color.FromArgb(127, 0xEF, 0xE0, 0xE0));
+                        newgraphic.FillPath(myBrush, pathRandomCubes);
+                        newgraphic.DrawPath(myPen, pathRandomCubes);
+                    }
+
+                    GraphicsPath path = DoClipping();
+                    myPen = new Pen(Color.FromArgb(255, 0x00, 0x00, 0x00));
+                    myBrush = new SolidBrush(Color.FromArgb(255, 0xFF, 0xFF, 0xFF));
+                    newgraphic.FillPath(myBrush, path);
+                    newgraphic.DrawPath(myPen, path);
                 }
                 pictureBox1.Image = mybitmap;
 
@@ -178,13 +191,14 @@ namespace WindowsFormsApplication1
             }
         }
         //Here comes Drawing
-        private void SumMinkowski(bool justClip = false)
+        private GraphicsPath SumMinkowski(bool justClip = false)
         {
 
             GenerateFigures(textBox1.Text, textBox2.Text);
             pathSolution.FillMode = FillMode.Winding;
             float scale = trackBar1.Value;
             PointF[] pts;
+            GraphicsPath path = new GraphicsPath();
             //draw subjects ...
             //Minkovski w/ Timer
             if (numericUpDown1.Value != 0)
@@ -196,60 +210,62 @@ namespace WindowsFormsApplication1
                     solution = Clipper.MinkowskiSum(figure2, solution, true);
 
                 }
-                pathSolution.FillMode = FillMode.Winding;
+                path.FillMode = FillMode.Winding;
                 foreach (Polygon poly in solution)
                 {
                     pts = PolygonToPointFArray(poly, scale);
-                    pathSolution.AddPolygon(pts);
+                    path.AddPolygon(pts);
                     pts = null;
                 }
             }
-            DrawBitmap();
+            return path;
         }
-        private void DoClipping(Polygons solution, Polygons cubes, bool justClip = false)
+        private GraphicsPath DoClipping(bool justClip = false)
         {
             float scale = trackBar1.Value;
             Polygons solution_2 = new Polygons();
             Clipper c = new Clipper();
             c.AddPaths(solution, PolyType.ptSubject, true);
             c.AddPaths(cubes, PolyType.ptClip, true);
-            pathSolution.FillMode = FillMode.Winding;
+            GraphicsPath path = new GraphicsPath();
+            path.FillMode = FillMode.Winding;
             c.Execute(ClipType.ctIntersection, solution_2, PolyFillType.pftEvenOdd, PolyFillType.pftEvenOdd);
             foreach (Polygon poly in solution_2)
             {
                 PointF[] pts = PolygonToPointFArray(poly, scale);
-                pathSolution.AddPolygon(pts);
+                path.AddPolygon(pts);
                 pts = null;
             }
+            return path;
 
         }
-        private void RandomFigures(bool justClip = false)
+        private GraphicsPath RandomFigures(bool justClip = false)
         {
             float scale = trackBar1.Value;
+            GraphicsPath path = new GraphicsPath();
             //Convert Obs to ints
             int count = Convert.ToInt32(numericUpDown2.Value);
             cubes = GenerateRandomCubes(count);
             foreach (Polygon poly in cubes)
             {
                 PointF[] pts = PolygonToPointFArray(poly, scale);
-                pathRandomCubes.AddPolygon(pts);
+                path.AddPolygon(pts);
                 pts = null;
             }
-            DrawBitmap();
-            
-
+            return path;
         }
 
         private void bRefresh_Click(object sender, EventArgs e)
         {
             pathSolution.Reset();
-            SumMinkowski();
+            DrawBitmap(false);
         }
 
         private void bRefresh_Click2(object sender, EventArgs e)
         {
+
             pathRandomCubes.Reset();
-            RandomFigures();
+            DrawBitmap(true);
         }
         private void Form1_Load(object sender, EventArgs e)
         { 
